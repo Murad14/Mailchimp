@@ -11,26 +11,26 @@ console.log(axios.isCancel('something'));
 app.use(express.static("public"));
 app.use(express.urlencoded()); //BODY-PARSER
 
-app.get("/", function(req, res){
+app.get("/", function (req, res) {
   res.sendFile(__dirname + "/signup.html");
 })
 
-app.post("/", function(req,res){
-    const firstName = req.body.fName;
-    const lastName = req.body.lName;
-    const email = req.body.email;
+app.post("/", function (req, res) {
+  const firstName = req.body.fName;
+  const lastName = req.body.lName;
+  const email = req.body.email;
 
-    const data = {
-      members: [
-          {
-              email_address: email,
-              status: "subscribed",
-              merge_fields: {
-                  FNAME: firstName,
-                  LNAME: lastName
-              }
-          }
-      ]
+  const data = {
+    members: [
+      {
+        email_address: email,
+        status: "subscribed",
+        merge_fields: {
+          FNAME: firstName,
+          LNAME: lastName
+        }
+      }
+    ]
   };
 
   const jsonData = JSON.stringify(data);
@@ -41,10 +41,17 @@ app.post("/", function(req,res){
     auth: "murad1:ebf51bfc62b8628fa4dcf39f4433af1a-us21"
   }
 
-  const request = https.request(url, options, function(response){
+  const request = https.request(url, options, function (response) {
+
+    if (response.statusCode === 200) {
+      res.send("Successfully subscribed!");
+    }else{
+      res.send("There was an error with signing up, because api is not working!")
+    }
+
     response.on("data", function (data) {
       console.log(JSON.parse(data));
-  });
+    });
   })
   request.write(jsonData);
   request.end();
@@ -59,7 +66,7 @@ app.listen(port, () => {
 })
 
 
-//API key: 
+//API key:
 // ebf51bfc62b8628fa4dcf39f4433af1a-us21
 // Audience ID
 // 64ff661dfc 
