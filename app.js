@@ -2,6 +2,9 @@ const express = require('express')
 const app = express()
 const port = 3001
 const axios = require('axios'); //axios
+const https = require("https");
+const { url } = require('inspector');
+
 
 console.log(axios.isCancel('something'));
 
@@ -13,11 +16,38 @@ app.get("/", function(req, res){
 })
 
 app.post("/", function(req,res){
-    var firstName = req.body.fName;
-    var lastName = req.body.lName;
-    var email = req.body.email;
+    const firstName = req.body.fName;
+    const lastName = req.body.lName;
+    const email = req.body.email;
 
-    console.log(firstName,lastName,email);
+    const data = {
+      members: [
+          {
+              email_address: email,
+              status: "subscribed",
+              merge_fields: {
+                  FNAME: firstName,
+                  LNAME: lastName
+              }
+          }
+      ]
+  };
+
+  const jsonData = JSON.stringify(data);
+  const url = "https://21.api.mailchimp.com/3.0/lists/64ff661dfc"
+
+  const options = {
+    method: "POST",
+    auth: "murad1:ebf51bfc62b8628fa4dcf39f4433af1a-us21"
+  }
+
+  const request = https.request(url, options, function(response){
+    response.on("data", function (data) {
+      console.log(JSON.parse(data));
+  });
+  })
+  request.write(jsonData);
+  request.end();
 })
 
 // app.get('/', (req, res) => {
@@ -27,3 +57,9 @@ app.post("/", function(req,res){
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
+//API key: 
+// ebf51bfc62b8628fa4dcf39f4433af1a-us21
+// Audience ID
+// 64ff661dfc 
