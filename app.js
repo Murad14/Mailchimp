@@ -44,9 +44,9 @@ app.post("/", function (req, res) {
   const request = https.request(url, options, function (response) {
 
     if (response.statusCode === 200) {
-      res.send("Successfully subscribed!");
+      res.sendFile(__dirname + "/success.html");
     }else{
-      res.send("There was an error with signing up, because api is not working!")
+      res.sendFile(__dirname + "/failure.html");
     }
 
     response.on("data", function (data) {
@@ -56,6 +56,12 @@ app.post("/", function (req, res) {
   request.write(jsonData);
   request.end();
 })
+
+
+app.post("/failure", function(req, res){
+  res.redirect("/")
+})
+
 
 // app.get('/', (req, res) => {
 //   res.send('Hello World!')
