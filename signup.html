@@ -20,13 +20,13 @@
 
 <body class="text-center">
     <main class="form-signin">
-        <form>
+        <form action="/" method="post">
             <img class="mb-4" src="image/news-icon.png" alt="" width="72" height="72">
             <h1 class="h3 mb-3 fw-normal">Signup to My Newsletter</h1>
 
-            <input type="text" class="form-control top " id="floatingInput" placeholder="First Name" required autofocus>
-            <input type="text" class="form-control middle" id="floatingPassword" placeholder="Last Name" required>
-            <input type="email" class="form-control bottom" id="floatingPassword" placeholder="email" required>
+            <input type="text" name="fName" class="form-control top "  placeholder="First Name" required autofocus>
+            <input type="text" name="lName" class="form-control middle" placeholder="Last Name" required>
+            <input type="email" name="email" class="form-control bottom"  placeholder="email" required>
 
             <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Me Up!</button>
             <p class="mt-5 mb-3 text-muted">©Muradul Alam</p>
